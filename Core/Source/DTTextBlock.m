@@ -20,4 +20,30 @@
 @synthesize padding = _padding;
 @synthesize backgroundColor = _backgroundColor;
 
+- (CGFloat)valueForDimension:(NSTextBlockDimension)dimension
+{
+	return -1;
+}
+
+- (NSTextBlockValueType)valueTypeForDimension:(NSTextBlockDimension)dimension
+{
+	return NSTextBlockAbsoluteValueType;
+}
+
+- (CGFloat)widthForLayer:(NSTextBlockLayer)layer edge:(NSRectEdge)edge
+{
+	return -1;
+}
+
+- (NSTextBlockValueType)widthValueTypeForLayer:(NSTextBlockLayer)layer edge:(NSRectEdge)edge
+{
+	return NSTextBlockAbsoluteValueType;
+}
+
+- (UIColor *)borderColorForEdge:(NSRectEdge)edge
+{
+	return [UIColor clearColor];
+}
+	
+
 @end

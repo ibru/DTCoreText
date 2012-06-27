@@ -47,14 +47,22 @@
 
 	if (paragraphStyle)
 	{
-		CTParagraphStyleRef newParagraphStyle = [paragraphStyle createCTParagraphStyle];
-		[attributes setObject:CFBridgingRelease(newParagraphStyle) forKey:(id)kCTParagraphStyleAttributeName];
+		//CTParagraphStyleRef newParagraphStyle = [paragraphStyle createCTParagraphStyle];
+		[attributes setObject:paragraphStyle forKey:(id)kCTParagraphStyleAttributeName];
 	}
 	
 	if (fontDescriptor)
 	{
 		CTFontRef newFont = [fontDescriptor newMatchingFont];
-		[attributes setObject:CFBridgingRelease(newFont) forKey:(id)kCTFontAttributeName];
+		
+		CTFontRef ctFont = newFont;
+		NSString *fontName = (__bridge NSString *)CTFontCopyName(ctFont, kCTFontPostScriptNameKey);
+		CGFloat fontSize = CTFontGetSize(ctFont);
+		UIFont *uiFont = [UIFont fontWithName:fontName size:fontSize];
+		fontName = nil;
+		
+		[attributes setObject:uiFont forKey:(id)kCTFontAttributeName];
+		CFBridgingRelease(newFont);
 	}
 	
 	NSAttributedString *attributedString = [[NSAttributedString alloc] initWithString:string attributes:attributes];

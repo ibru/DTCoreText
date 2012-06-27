@@ -11,7 +11,7 @@
  
  Since `NSAttributedString` instances use CTParagraphStyle object there are methods to bridge from and to these. Because of this distinction there is no need for a mutable variant of this class.
  */
-@interface DTCoreTextParagraphStyle : NSObject <NSCopying>
+@interface DTCoreTextParagraphStyle : NSMutableParagraphStyle
 
 /**
  @name Creating a DTCoreTextParagraphStyle
@@ -59,7 +59,7 @@
 /**
  The indentation of the first line of the receiver.
  */
-@property (nonatomic, assign) CGFloat firstLineHeadIndent;
+//@property (nonatomic, assign) CGFloat firstLineHeadIndent;
 
 
 /**
@@ -73,13 +73,13 @@
 /**
  The distance between the paragraph’s top and the beginning of its text content.
  */
-@property (nonatomic, assign) CGFloat paragraphSpacingBefore;
+//@property (nonatomic, assign) CGFloat paragraphSpacingBefore;
 
 
 /**
  The space after the end of the paragraph. 
  */
-@property (nonatomic, assign) CGFloat paragraphSpacing;
+//@property (nonatomic, assign) CGFloat paragraphSpacing;
 
 
 /**
@@ -87,25 +87,25 @@
  
  Internally line height multiples get converted into minimum and maximum line height.
  */
-@property (nonatomic, assign) CGFloat lineHeightMultiple;
+//@property (nonatomic, assign) CGFloat lineHeightMultiple;
 
 
 /**
  The minimum height in points that any line in the receiver will occupy, regardless of the font size or size of any attached graphic. This value is always nonnegative.
  */
-@property (nonatomic, assign) CGFloat minimumLineHeight;
+//@property (nonatomic, assign) CGFloat minimumLineHeight;
 
 
 /**
  The maximum height in points that any line in the receiver will occupy, regardless of the font size or size of any attached graphic. This value is always nonnegative. The default value is 0.
  */
-@property (nonatomic, assign) CGFloat maximumLineHeight;
+//@property (nonatomic, assign) CGFloat maximumLineHeight;
 
 
 /**
  The distance in points from the leading margin of a text container to the beginning of lines other than the first. This value is always nonnegative.
  */
-@property (nonatomic, assign) CGFloat headIndent;
+//@property (nonatomic, assign) CGFloat headIndent;
 
 
 /**
@@ -113,14 +113,14 @@
 
  Natural text alignment is realized as left or right alignment depending on the line sweep direction of the first script contained in the paragraph.
  */
-@property (nonatomic, assign) CTTextAlignment alignment;
+//@property (nonatomic, assign) CTTextAlignment alignment;
 
 
 /**
  The base writing direction for the receiver.
  
 */
-@property (nonatomic, assign) CTWritingDirection baseWritingDirection;
+//@property (nonatomic, assign) CTWritingDirection baseWritingDirection;
 
 
 /**-------------------------------------------------------------------------------------

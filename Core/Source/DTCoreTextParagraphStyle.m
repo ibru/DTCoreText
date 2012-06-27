@@ -24,7 +24,7 @@ static dispatch_semaphore_t selfLock;
 	CGFloat minimumLineHeight;
 	CGFloat maximumLineHeight;
 	
-	CTTextAlignment _alignment;
+	//CTTextAlignment _alignment;
 	CTWritingDirection baseWritingDirection;
 	
 	NSMutableArray *_tabStops;
@@ -301,7 +301,7 @@ static dispatch_semaphore_t selfLock;
 @synthesize alignment = _alignment;
 @synthesize textLists;
 @synthesize textBlocks;
-@synthesize baseWritingDirection;
+//@synthesize baseWritingDirection;
 @synthesize tabStops = _tabStops;
 
 @end

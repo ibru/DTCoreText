@@ -122,7 +122,7 @@
 		// try font cache first
 		NSNumber *key = [NSNumber numberWithUnsignedInteger:[fontDescriptor hash]];
 		CTFontRef font = (__bridge CTFontRef)[self.fontCache objectForKey:key];
-		
+				
 		if (!font)
 		{
 			font = [fontDescriptor newMatchingFont];
@@ -135,11 +135,18 @@
 		
 		if (font)
 		{
+			NSString *fontName = (__bridge NSString *)CTFontCopyName(font, kCTFontPostScriptNameKey);
+			CGFloat fontSize = CTFontGetSize(font);
+			UIFont *uiFont = [UIFont fontWithName:fontName size:fontSize];
+			fontName = nil;
+			
 			// __bridge since its already retained elsewhere
-			[tmpDict setObject:(__bridge id)(font) forKey:(id)kCTFontAttributeName];
+			[tmpDict setObject:uiFont forKey:(id)kCTFontAttributeName];
 			
 			// use this font to adjust the values needed for the run delegate during layout time
 			[_textAttachment adjustVerticalAlignmentForFont:font];
+			
+			//CFRelease(font);
 		}
 	}
 	
@@ -176,11 +183,13 @@
 	if (_textColor)
 	{
 		[tmpDict setObject:(id)[_textColor CGColor] forKey:(id)kCTForegroundColorAttributeName];
+		[tmpDict setObject:_textColor forKey:NSForegroundColorAttributeName];
 	}
 	
 	if (backgroundColor)
 	{
 		[tmpDict setObject:(id)[backgroundColor CGColor] forKey:DTBackgroundColorAttribute];
+		[tmpDict setObject:backgroundColor forKey:NSBackgroundColorAttributeName];
 	}
 	
 	if (superscriptStyle)
@@ -191,8 +200,8 @@
 	// add paragraph style
 	if (paragraphStyle)
 	{
-		CTParagraphStyleRef newParagraphStyle = [self.paragraphStyle createCTParagraphStyle];
-		[tmpDict setObject:CFBridgingRelease(newParagraphStyle) forKey:(id)kCTParagraphStyleAttributeName];
+		//CTParagraphStyleRef newParagraphStyle = [self.paragraphStyle createCTParagraphStyle];
+		[tmpDict setObject:self.paragraphStyle forKey:(id)kCTParagraphStyleAttributeName];
 		//CFRelease(newParagraphStyle);
 	}
 	
@@ -250,9 +259,16 @@
 				smallDesc.smallCapsFeature = YES;
 				
 				CTFontRef smallerFont = [smallDesc newMatchingFont];
+				CTFontRef ctFont = smallerFont;
+				NSString *fontName = (__bridge NSString *)CTFontCopyName(ctFont, kCTFontPostScriptNameKey);
+				CGFloat fontSize = CTFontGetSize(ctFont);
+				UIFont *uiFont = [UIFont fontWithName:fontName size:fontSize];
+				fontName = nil;
+				
 				
 				NSMutableDictionary *smallAttributes = [attributes mutableCopy];
-				[smallAttributes setObject:CFBridgingRelease(smallerFont) forKey:(id)kCTFontAttributeName];
+				[smallAttributes setObject:uiFont forKey:(id)kCTFontAttributeName];
+				//CFRelease(smallerFont);
 				
 				return [[NSAttributedString alloc] initWithString:text attributes:smallAttributes];
 			}

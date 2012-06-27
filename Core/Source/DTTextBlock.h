@@ -25,4 +25,50 @@
 @property (nonatomic, strong) DTColor *backgroundColor;
 
 
+// missing methods and values
+
+/* Values for NSTextBlockDimension */
+enum {
+    NSTextBlockWidth            = 0,
+    NSTextBlockMinimumWidth     = 1,
+    NSTextBlockMaximumWidth     = 2,
+    NSTextBlockHeight           = 4,
+    NSTextBlockMinimumHeight    = 5,
+    NSTextBlockMaximumHeight    = 6
+};
+typedef NSUInteger NSTextBlockDimension;
+
+/* Values for NSTextBlockValueType */
+enum {
+    NSTextBlockAbsoluteValueType    = 0,    // Absolute value in points
+    NSTextBlockPercentageValueType  = 1     // Percentage value (out of 100)
+};
+typedef NSUInteger NSTextBlockValueType;
+
+/* Values for NSTextBlockLayer */
+enum {
+    NSTextBlockPadding  = -1,
+    NSTextBlockBorder   =  0,
+    NSTextBlockMargin   =  1
+};
+typedef NSInteger NSTextBlockLayer;
+
+typedef enum {
+    NSMinXEdge = 0,
+    NSMinYEdge = 1,
+    NSMaxXEdge = 2,
+    NSMaxYEdge = 3
+} NSRectEdge;
+
+- (CGFloat)valueForDimension:(NSTextBlockDimension)dimension;
+
+- (NSTextBlockValueType)valueTypeForDimension:(NSTextBlockDimension)dimension;
+
+- (CGFloat)widthForLayer:(NSTextBlockLayer)layer edge:(NSRectEdge)edge;
+
+- (NSTextBlockValueType)widthValueTypeForLayer:(NSTextBlockLayer)layer edge:(NSRectEdge)edge;
+
+- (UIColor *)borderColorForEdge:(NSRectEdge)edge;
+
+
 @end

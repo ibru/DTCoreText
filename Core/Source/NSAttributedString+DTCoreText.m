@@ -755,6 +755,7 @@
 	CTParagraphStyleRef paraStyle = (__bridge CTParagraphStyleRef)[attributes objectForKey:(id)kCTParagraphStyleAttributeName];
 	CTFontRef font = (__bridge CTFontRef)[attributes objectForKey:(id)kCTFontAttributeName];
 	CGColorRef textColor = (__bridge CGColorRef)[attributes objectForKey:(id)kCTForegroundColorAttributeName];
+	UIColor *uiTextColor = [attributes objectForKey:NSForegroundColorAttributeName];
 	
 	DTCoreTextFontDescriptor *fontDescriptor = nil;
 	DTCoreTextParagraphStyle *paragraphStyle = nil;
@@ -796,20 +797,28 @@
 		
 		font = [fontDesc newMatchingFont];
 		
-		[newAttributes setObject:CFBridgingRelease(font) forKey:(id)kCTFontAttributeName];
+		CTFontRef ctFont = font;
+		NSString *fontName = (__bridge NSString *)CTFontCopyName(ctFont, kCTFontPostScriptNameKey);
+		CGFloat fontSize = CTFontGetSize(ctFont);
+		UIFont *uiFont = [UIFont fontWithName:fontName size:fontSize];
+		fontName = nil;
+		
+		[newAttributes setObject:uiFont forKey:(id)kCTFontAttributeName];
+		CFBridgingRelease(font);
 	}
 	
 	// text color for bullet same as text
 	if (textColor)
 	{
 		[newAttributes setObject:(__bridge id)textColor forKey:(id)kCTForegroundColorAttributeName];
+		[newAttributes setObject:uiTextColor forKey:NSForegroundColorAttributeName];
 	}
 	
 	// add paragraph style (this has the tabs)
 	if (paragraphStyle)
 	{
-		CTParagraphStyleRef newParagraphStyle = [paragraphStyle createCTParagraphStyle];
-		[newAttributes setObject:CFBridgingRelease(newParagraphStyle) forKey:(id)kCTParagraphStyleAttributeName];
+		//CTParagraphStyleRef newParagraphStyle = [paragraphStyle createCTParagraphStyle];
+		[newAttributes setObject:paragraphStyle forKey:(id)kCTParagraphStyleAttributeName];
 	}
 	
 	if (listStyle)
